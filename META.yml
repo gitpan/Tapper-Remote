@@ -29,6 +29,6 @@ requires:
   Net::TFTP: 0.19
   Socket: 0
   Sys::Hostname: 0
-  Tapper::Base: 3.000001
-  YAML::Syck: 0
-version: 3.000001
+  Tapper::Base: 3.000002
+  YAML::Syck: 1.17
+version: 3.000002

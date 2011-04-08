@@ -1,6 +1,7 @@
 ---
 abstract: 'Tapper - Common functionality for remote automation libs'
 author:
+  - 'AMD OSRC Tapper Team, C<< <tapper at amd64.org> >>'
   - 'AMD OSRC Tapper Team <tapper@amd64.org>'
 build_requires:
   ExtUtils::MakeMaker: 6.42
@@ -9,7 +10,7 @@ build_requires:
 configure_requires:
   ExtUtils::MakeMaker: 6.42
 distribution_type: module
-generated_by: 'Module::Install version 0.91'
+generated_by: 'Module::Install version 1.00'
 license: freebsd
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -28,9 +29,9 @@ requires:
   Net::TFTP: 0.19
   Socket: 0
   Sys::Hostname: 0
-  Tapper::Base: 3.000002
+  Tapper::Base: 3.000010
   YAML::Syck: 1.17
 resources:
   bugtracker: http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Tapper-Remote
   repository: git://github.com/amd/Tapper-Reports-Remote.git
-version: 3.000004
+version: 3.000010

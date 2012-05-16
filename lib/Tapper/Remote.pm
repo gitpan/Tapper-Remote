@@ -1,11 +1,19 @@
 package Tapper::Remote;
+BEGIN {
+  $Tapper::Remote::AUTHORITY = 'cpan:AMD';
+}
+{
+  $Tapper::Remote::VERSION = '4.0.1';
+}
+# ABSTRACT: Tapper - Common functionality for remote automation libs
 
 use warnings;
 use strict;
 use Moose;
 
 extends 'Tapper::Base';
-has cfg =>  (is => 'rw', isa => 'HashRef', default => sub {{mcp_port => 7357, mcp_host => 'localhost'}});
+has cfg =>  (is => 'rw', isa => 'HashRef', default => sub { {} });
+
 
 sub BUILD
 {
@@ -14,14 +22,16 @@ sub BUILD
 }
 
 
+1; # End of Tapper::Remote
+
+__END__
+=pod
+
+=encoding utf-8
+
 =head1 NAME
 
 Tapper::Remote - Tapper - Common functionality for remote automation libs
-
-=cut
-
-our $VERSION = '3.000010';
-
 
 =head1 SYNOPSIS
 
@@ -30,25 +40,21 @@ projects (currently Tapper::PRC and Tapper::Installer).
 Tapper::Remote itself does not export functionality but instead is the
 base image for all modules of the project.
 
-=head1 EXPORT
+=head2 BUILD
 
-Nothing. 
-
-=head1 FUNCTIONS
+Initialize config.
 
 =head1 AUTHOR
 
-AMD OSRC Tapper Team, C<< <tapper at amd64.org> >>
+AMD OSRC Tapper Team <tapper@amd64.org>
 
-=head1 BUGS
+=head1 COPYRIGHT AND LICENSE
 
+This software is Copyright (c) 2012 by Advanced Micro Devices, Inc..
 
-=head1 COPYRIGHT & LICENSE
+This is free software, licensed under:
 
-Copyright 2008-2011 AMD OSRC Tapper Team, all rights reserved.
-
-This program is released under the following license: freebsd
+  The (two-clause) FreeBSD License
 
 =cut
 
-1; # End of Tapper::Remote

@@ -1,4 +1,10 @@
 package Tapper::Remote::Config;
+BEGIN {
+  $Tapper::Remote::Config::AUTHORITY = 'cpan:AMD';
+}
+{
+  $Tapper::Remote::Config::VERSION = '4.0.1';
+}
 
 use strict;
 use warnings;
@@ -11,26 +17,8 @@ use Sys::Hostname;
 use YAML::Syck;
 
 
-=head1 NAME
-
-Tapper::Remote::Config - Get configuration from Tapper host
-
-=head1 SYNOPSIS
-
- use Tapper::Remote::Config;
-
-=head1 FUNCTIONS
-
-=cut
 
 
-=head2 get_tapper_host
-
-Get hostname of tapper MCP host from kernel boot parameters.
-
-@returnlist ($host,port) - string, int - hostname and port of MCP server
-
-=cut
 
 sub get_tapper_host
 {
@@ -41,6 +29,15 @@ sub get_tapper_host
         close $FH;
         ($host,undef,$port) = $cmd_line =~ m/tapper_host\s*=\s*(\w+)(:(\d+))?/;
         return($host,$port) if $host;
+
+        if (my ($ip) = $cmd_line =~ m/tapper_ip\s*=\s*(\S+)/) {
+                my $iaddr = inet_aton($ip);
+                $host  = gethostbyaddr($iaddr, AF_INET);
+
+                ($port) = $cmd_line =~ m/tapper_port\s*=\s*(\d+)/;
+                  return($host,$port) if $host;
+        }
+
 
         # try %ENV
         if ($ENV{TAPPER_MCP_SERVER}) {
@@ -53,45 +50,23 @@ sub get_tapper_host
 }
 
 
-=head2 gethostname
-
-This function returns the host name of the machine. When NFS root is
-used together with DHCP the hostname set in the kernel usually equals
-the IP address received from DHCP as a string. In this case the kernel
-hostname is set to the DNS hostname associated to this IP address.
-
-@return hostname of the machine as set in the kernel
-
-=cut
 
 sub gethostname
 {
-	my ($self) = @_;
+        my ($self) = @_;
         my $hostname = Sys::Hostname::hostname();
-	if ($hostname   =~ m/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/) {
+        if ($hostname   =~ m/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/) {
                 ($hostname) = gethostbyaddr(inet_aton($hostname), AF_INET) or ( print("Can't get hostname: $!") and exit 1);
                 $hostname   =~ s/^(\w+?)\..+$/$1/;
                 system("hostname", "$hostname");
         } elsif ($hostname  =~ m/^([^\.]+)\./) {
                 $hostname   = $1;
         }
-	return $hostname;
+        return $hostname;
 }
 
 
 
-=head2 get_local_data
-
-Get local data needed for all tools running locally on NFS. The function tries
-to get the MCP host and fetches the config from there. This reduces any need
-for configuration outside MCP host and thus allows to use unchanged NFS root
-file systems for both testing and production, with different MCP servers and
-so on. 
-
-@return success - hash reference containing the config
-@return error   - error string 
-
-=cut
 
 sub get_local_data
 {
@@ -129,30 +104,64 @@ sub get_local_data
         return $config;
 }
 
-
 1;
+
+__END__
+=pod
+
+=encoding utf-8
+
+=head1 NAME
+
+Tapper::Remote::Config
+
+=head1 SYNOPSIS
+
+ use Tapper::Remote::Config;
+
+=head1 NAME
+
+Tapper::Remote::Config - Get configuration from Tapper host
+
+=head1 FUNCTIONS
+
+=head2 get_tapper_host
+
+Get hostname of tapper MCP host from kernel boot parameters.
+
+@returnlist ($host,port) - string, int - hostname and port of MCP server
+
+=head2 gethostname
+
+This function returns the host name of the machine. When NFS root is
+used together with DHCP the hostname set in the kernel usually equals
+the IP address received from DHCP as a string. In this case the kernel
+hostname is set to the DNS hostname associated to this IP address.
+
+@return hostname of the machine as set in the kernel
+
+=head2 get_local_data
+
+Get local data needed for all tools running locally on NFS. The function tries
+to get the MCP host and fetches the config from there. This reduces any need
+for configuration outside MCP host and thus allows to use unchanged NFS root
+file systems for both testing and production, with different MCP servers and
+so on.
+
+@return success - hash reference containing the config
+@return error   - error string
 
 =head1 AUTHOR
 
-AMD OSRC Tapper Team, C<< <tapper at amd64.org> >>
+AMD OSRC Tapper Team <tapper@amd64.org>
 
-=head1 BUGS
+=head1 COPYRIGHT AND LICENSE
 
-None.
+This software is Copyright (c) 2012 by Advanced Micro Devices, Inc..
 
-=head1 SUPPORT
+This is free software, licensed under:
 
-You can find documentation for this module with the perldoc command.
+  The (two-clause) FreeBSD License
 
- perldoc Tapper
-
-
-=head1 ACKNOWLEDGEMENTS
-
-
-=head1 COPYRIGHT & LICENSE
-
-Copyright 2008-2011 AMD OSRC Tapper Team, all rights reserved.
-
-This program is released under the following license: freebsd
+=cut
 

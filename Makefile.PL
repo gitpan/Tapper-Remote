@@ -1,32 +1,67 @@
+
 use strict;
 use warnings;
 
-use inc::Module::Install;
 
-name     'Tapper-Remote';
-all_from 'lib/Tapper/Remote.pm';
-author   'AMD OSRC Tapper Team <tapper@amd64.org>';
-license  'freebsd';
 
-build_requires 'Test::More';
-build_requires 'Test::Perl::Critic';
+use ExtUtils::MakeMaker 6.30;
 
-author_requires 'Module::Install::WriteAll';
 
-requires 'Getopt::Long';
-requires 'Moose';
-requires 'Net::TFTP' => "0.19";
-requires 'File::Path';
-requires 'Sys::Hostname';
-requires 'Socket';
-requires 'YAML::Syck' => "1.17";
-requires 'IO::Socket::INET';
-requires 'Tapper::Base' => "3.000010";
 
-auto_install;
+my %WriteMakefileArgs = (
+  "ABSTRACT" => "Tapper - Common functionality for remote automation libs",
+  "AUTHOR" => "AMD OSRC Tapper Team <tapper\@amd64.org>",
+  "BUILD_REQUIRES" => {
+    "Log::Log4perl" => 0,
+    "POSIX" => 0,
+    "Test::MockModule" => 0,
+    "Test::More" => 0
+  },
+  "CONFIGURE_REQUIRES" => {
+    "ExtUtils::MakeMaker" => "6.30"
+  },
+  "DISTNAME" => "Tapper-Remote",
+  "EXE_FILES" => [],
+  "LICENSE" => "open_source",
+  "NAME" => "Tapper::Remote",
+  "PREREQ_PM" => {
+    "Getopt::Long" => 0,
+    "IO::Socket::INET" => 0,
+    "Moose" => 0,
+    "Moose::Role" => 0,
+    "Net::TFTP" => 0,
+    "Socket" => 0,
+    "Sys::Hostname" => 0,
+    "Tapper::Base" => 0,
+    "URI::Escape" => 0,
+    "YAML::Syck" => 0,
+    "strict" => 0,
+    "warnings" => 0
+  },
+  "VERSION" => "4.0.1",
+  "test" => {
+    "TESTS" => "t/*.t"
+  }
+);
 
-repository 'git://github.com/amd/Tapper-Reports-Remote.git';
-bugtracker 'http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Tapper-Remote';
 
-WriteAll;
+unless ( eval { ExtUtils::MakeMaker->VERSION(6.56) } ) {
+  my $br = delete $WriteMakefileArgs{BUILD_REQUIRES};
+  my $pp = $WriteMakefileArgs{PREREQ_PM};
+  for my $mod ( keys %$br ) {
+    if ( exists $pp->{$mod} ) {
+      $pp->{$mod} = $br->{$mod} if $br->{$mod} > $pp->{$mod};
+    }
+    else {
+      $pp->{$mod} = $br->{$mod};
+    }
+  }
+}
+
+delete $WriteMakefileArgs{CONFIGURE_REQUIRES}
+  unless eval { ExtUtils::MakeMaker->VERSION(6.52) };
+
+WriteMakefile(%WriteMakefileArgs);
+
+
 

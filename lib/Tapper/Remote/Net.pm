@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Remote::Net::AUTHORITY = 'cpan:AMD';
 }
 {
-  $Tapper::Remote::Net::VERSION = '4.0.1';
+  $Tapper::Remote::Net::VERSION = '4.1.0';
 }
 
 use strict;
@@ -147,6 +147,23 @@ sub nfs_mount
 }
 
 
+sub log_to_file
+{
+
+        my ($self, $state) = @_;
+        my $output = $self->cfg->{paths}{output_dir};
+        $output   .= "/".($self->cfg->{testrun_id} || $self->cfg->{test_run});
+        $output   .= "/$state";
+
+        my $error  = $self->makedir ($output);
+        return $error if $error;
+
+        $output   .= "/Tapper";
+        open (STDOUT, ">>", "$output.stdout") or $self->logdie("Can't open output file $output.stdout: $!");
+        open (STDERR, ">>", "$output.stderr") or $self->logdie("Can't open output file $output.stderr: $!");
+        return 0;
+}
+
 1;
 
 __END__
@@ -219,6 +236,16 @@ only want to mount this NFS share in live mode.
 
 @return success - 0
 @return error   - error string
+
+=head2 log_to_file
+
+Turn stdout and stderr into files. This way we get output that would
+otherwise be lost. The function expects a state that will be used.
+
+@param string - state
+
+@return success - 0
+@return error   - string
 
 =head1 AUTHOR
 

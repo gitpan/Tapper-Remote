@@ -3,7 +3,7 @@ BEGIN {
   $Tapper::Remote::Config::AUTHORITY = 'cpan:AMD';
 }
 {
-  $Tapper::Remote::Config::VERSION = '4.0.1';
+  $Tapper::Remote::Config::VERSION = '4.1.0';
 }
 
 use strict;
@@ -147,6 +147,8 @@ to get the MCP host and fetches the config from there. This reduces any need
 for configuration outside MCP host and thus allows to use unchanged NFS root
 file systems for both testing and production, with different MCP servers and
 so on.
+
+@param string - state
 
 @return success - hash reference containing the config
 @return error   - error string

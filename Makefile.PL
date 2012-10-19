@@ -12,6 +12,7 @@ my %WriteMakefileArgs = (
   "ABSTRACT" => "Tapper - Common functionality for remote automation libs",
   "AUTHOR" => "AMD OSRC Tapper Team <tapper\@amd64.org>",
   "BUILD_REQUIRES" => {
+    "File::Temp" => 0,
     "Log::Log4perl" => 0,
     "POSIX" => 0,
     "Test::MockModule" => 0,
@@ -38,7 +39,7 @@ my %WriteMakefileArgs = (
     "strict" => 0,
     "warnings" => 0
   },
-  "VERSION" => "4.0.1",
+  "VERSION" => "4.1.0",
   "test" => {
     "TESTS" => "t/*.t"
   }

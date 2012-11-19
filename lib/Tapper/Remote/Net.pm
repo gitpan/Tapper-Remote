@@ -1,9 +1,9 @@
 package Tapper::Remote::Net;
 BEGIN {
-  $Tapper::Remote::Net::AUTHORITY = 'cpan:AMD';
+  $Tapper::Remote::Net::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Remote::Net::VERSION = '4.1.0';
+  $Tapper::Remote::Net::VERSION = '4.1.1';
 }
 
 use strict;

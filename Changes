@@ -1,5 +1,8 @@
 Revision history for Tapper-Remote
 
+4.1.1     2012-11-19
+        - dzil pluginbundle TAPPER
+
 4.1.0     2012-10-19
         - [FEAT] log_to_file() to put output into file
         - [DOC] improved API doc

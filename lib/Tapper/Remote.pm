@@ -1,11 +1,11 @@
 package Tapper::Remote;
-# git description: v4.0.1-6-g61c9ef2
+# git description: v4.1.0-1-g7b671d3
 
 BEGIN {
-  $Tapper::Remote::AUTHORITY = 'cpan:AMD';
+  $Tapper::Remote::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Remote::VERSION = '4.1.0';
+  $Tapper::Remote::VERSION = '4.1.1';
 }
 # ABSTRACT: Tapper - Common functionality for remote automation libs
 

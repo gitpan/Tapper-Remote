@@ -1,9 +1,9 @@
 package Tapper::Remote::Config;
 BEGIN {
-  $Tapper::Remote::Config::AUTHORITY = 'cpan:AMD';
+  $Tapper::Remote::Config::AUTHORITY = 'cpan:TAPPER';
 }
 {
-  $Tapper::Remote::Config::VERSION = '4.1.0';
+  $Tapper::Remote::Config::VERSION = '4.1.1';
 }
 
 use strict;
